@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: akhil-kubernetes-metadata-game
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: akhil-kubernetes-metadata-game
+  template:
+    metadata:
+      labels:
+        app: akhil-kubernetes-metadata-game
+    spec:
+      containers:
+        - name: akhil-kubernetes-container-game
+          image: akhilsamineni47/akhilgame:1.0
+          ports:
+            - containerPort: 80
