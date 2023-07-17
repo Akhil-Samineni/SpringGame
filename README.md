@@ -1,4 +1,11 @@
 # SpringGame
+To start the app and deploy to kubernetes 
+first login to azure from cli using az login
+once logged in
+az aks get-credentials --name your-aks-cluster-name --resource-group your-aks-resource-group
+And then run startup.sh file with arguments of docker username and password
+.\startup.sh dockerUserName dockerPassword
+
 docker build -f Dockerfile -t dockerhubusername/appname:latest .
 docker push dockerhubusername/appname:latest
 kubectl apply -f deployment.yaml
