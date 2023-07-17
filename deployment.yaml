@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: akhil-kubernetes-container-game
-          image: akhilsamineni47/akhilgame:1.0
+          image: akhilsamineni47/akhilgame:latest
           ports:
             - containerPort: 80
