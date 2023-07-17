@@ -29,7 +29,7 @@ public class BadmintonService {
     private BadmintonRepository badmintonRepository;
 
     public List<String> getAllAvailableTimes() {
-        logger.info("Getting available times for {} at hour {}", getCurrentDate(), getCurrentHour());
+        logger.info("Getting available times for {} at hour {} from {} to {}", getCurrentDate(), getCurrentHour(), startTime, endTime);
         List<String> availableTimes = new ArrayList<>();
         HashMap<String, Integer> availableTimesCount = new HashMap<>();
         String url = "https://pbc.pike13.com/locations/dfw-badminton-center/appointments/238818";
@@ -66,10 +66,10 @@ public class BadmintonService {
                 }
             }
         } catch (IOException e) {
-            logger.info("Error while getting available times for {} at hour {} Error is {}", getCurrentDate(), getCurrentHour(), e.getMessage());
+            logger.info("Error while getting available times for {} at hour {} from {} to {} Error is {}", getCurrentDate(), getCurrentHour(), startTime, endTime, e.getMessage());
         }
         if (availableTimesCount.isEmpty()) {
-            logger.info("No available times for {} at hour {}", getCurrentDate(), getCurrentHour());
+            logger.info("No available times for {} at hour {} from {} to {}", getCurrentDate(), getCurrentHour(), startTime, endTime);
         } else {
             availableTimesCount.keySet().forEach(key -> availableTimes.add(availableTimesCount.get(key) + " courts available on " + getCurrentDate() + " at " + key));
         }
@@ -96,13 +96,13 @@ public class BadmintonService {
     }
 
     public void cleanUpStaleData() {
-        logger.info("Cleaning up badminton stale data");
+        logger.info("Cleaning up badminton stale data for date {}", getCurrentDate());
         try {
             Optional<List<Badminton>> badmintonList = badmintonRepository.getStaleData(getCurrentDate());
             badmintonList.ifPresent(badmintons -> badmintonRepository.deleteAll(badmintons));
-            logger.info("Cleaned up badminton stale data");
+            logger.info("Cleaned up badminton stale data on date {}", getCurrentDate());
         } catch (Exception e) {
-            logger.info("Error while cleaning up badminton stale data Error is {}", e.getMessage());
+            logger.info("Error while cleaning up badminton stale data on date {} Error is {}",getCurrentDate(), e.getMessage());
         }
     }
 }

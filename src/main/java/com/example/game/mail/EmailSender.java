@@ -11,6 +11,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
+import static com.example.game.util.DateTimeUtility.getCurrentDate;
 import static com.example.game.util.DateTimeUtility.getCurrentHour;
 
 @Component
@@ -43,14 +44,14 @@ public class EmailSender {
             mailSender.send(message);
             badminton.setTimesSent(body);
             badmintonService.saveBadminton(badminton);
-            logger.info("Sent email to recipients {} and saved data", (Object) to);
+            logger.info("Sent email to recipients {} on {} and saved data", (Object) to, getCurrentDate());
             int hour = getCurrentHour();
-            if (hour == 3) {
+            if (hour == 23) {
                 batchJobExecutionService.cleanUpStaleData();
                 badmintonService.cleanUpStaleData();
             }
         } catch (Exception e) {
-            logger.error("Failed to send email error is {}", e.getMessage());
+            logger.error("Failed to send email on {} error is {}", getCurrentDate(), e.getMessage());
         }
     }
 

@@ -1,10 +1,7 @@
 package com.example.game.config;
 
 import com.example.game.listener.JobCompletionNotificationListener;
-import com.example.game.processor.PersonItemProcessor;
-import com.example.game.reader.CustomReader;
 import com.example.game.tasklet.BadmintonTasklet;
-import com.example.game.writer.CustomWriter;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;

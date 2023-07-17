@@ -18,14 +18,14 @@ public class MDCAspect {
 
     @Before(value = "execution(* com.example.game.*.*.*(..))")
     public void setMDCValues(JoinPoint joinPoint) {
-        logger.info("AOP Before");
+        logger.info("AOP Before log");
         String userId = "UserIdInMDC";
         MDC.put("userId", userId);
     }
 
-    @After(value = "execution(* com.samiak.azure.*.*.*(..))")
+    @After(value = "execution(* com.example.game.*.*.*(..))")
     public void clearMDCValues() {
-        logger.info("AOP after");
+        logger.info("AOP after log");
         MDC.clear();
     }
 
