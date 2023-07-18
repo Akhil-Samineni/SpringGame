@@ -1,6 +1,7 @@
 package com.example.game.service;
 
 import com.example.game.model.Badminton;
+import com.example.game.mongorepository.PersonRepository;
 import com.example.game.repository.BadmintonRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -28,8 +29,18 @@ public class BadmintonService {
     @Autowired
     private BadmintonRepository badmintonRepository;
 
+    @Autowired
+    private PersonRepository personRepository;
+
     public List<String> getAllAvailableTimes() {
         logger.info("Getting available times for {} at hour {} from {} to {}", getCurrentDate(), getCurrentHour(), startTime, endTime);
+        try {
+            personRepository.findAll();
+            logger.info("Mongo cosmos db connection success");
+        } catch (Exception e) {
+            logger.info("Mongo cosmos db connection failed {}", e.getMessage());
+            e.printStackTrace();
+        }
         List<String> availableTimes = new ArrayList<>();
         HashMap<String, Integer> availableTimesCount = new HashMap<>();
         String url = "https://pbc.pike13.com/locations/dfw-badminton-center/appointments/238818";
@@ -102,7 +113,7 @@ public class BadmintonService {
             badmintonList.ifPresent(badmintons -> badmintonRepository.deleteAll(badmintons));
             logger.info("Cleaned up badminton stale data on date {}", getCurrentDate());
         } catch (Exception e) {
-            logger.info("Error while cleaning up badminton stale data on date {} Error is {}",getCurrentDate(), e.getMessage());
+            logger.info("Error while cleaning up badminton stale data on date {} Error is {}", getCurrentDate(), e.getMessage());
         }
     }
 }
